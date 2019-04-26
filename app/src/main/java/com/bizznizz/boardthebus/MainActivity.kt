@@ -12,7 +12,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-
 class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var busArrivalService: BusArrivalService
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         false
     }
 
-    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -43,6 +41,11 @@ class MainActivity : AppCompatActivity() {
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+    }
+
+    @SuppressLint("CheckResult")
+    override fun onResume() {
+        super.onResume()
         busArrivalService.getBusArrivalByBus("10111", "123")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
@@ -53,6 +56,5 @@ class MainActivity : AppCompatActivity() {
                     Log.w("BusArrival", "Unable to retrieve info", it)
                 }
             )
-
     }
 }
