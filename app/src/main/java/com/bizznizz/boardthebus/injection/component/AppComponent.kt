@@ -2,7 +2,7 @@ package com.bizznizz.boardthebus.injection.component
 
 import com.bizznizz.boardthebus.MyApplication
 import com.bizznizz.boardthebus.injection.module.AppModule
-import com.bizznizz.boardthebus.injection.module.MainActivityModule
+import com.bizznizz.boardthebus.injection.module.MainActivityBindingModule
 import com.bizznizz.boardthebus.injection.module.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
@@ -15,7 +15,7 @@ import javax.inject.Singleton
     AppModule::class,
     NetworkModule::class,
     AndroidInjectionModule::class,
-    MainActivityModule::class
+    MainActivityBindingModule::class
 ])
 interface AppComponent : AndroidInjector<MyApplication> {
 
