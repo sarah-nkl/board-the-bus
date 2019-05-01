@@ -1,4 +1,4 @@
-package com.bizznizz.boardthebus
+package com.happylication.boardthebus
 
 import org.junit.Test
 

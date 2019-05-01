@@ -1,6 +1,6 @@
-package com.bizznizz.boardthebus
+package com.happylication.boardthebus
 
-import com.bizznizz.boardthebus.model.BusArrival
+import com.happylication.boardthebus.model.BusArrival
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

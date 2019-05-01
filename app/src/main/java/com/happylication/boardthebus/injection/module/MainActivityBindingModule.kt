@@ -1,8 +1,9 @@
-package com.bizznizz.boardthebus.injection.module
+package com.happylication.boardthebus.injection.module
 
 import androidx.lifecycle.Lifecycle
-import com.bizznizz.boardthebus.MainActivity
-import com.bizznizz.boardthebus.injection.component.MainActivitySubcomponent
+import com.happylication.boardthebus.MainActivity
+import com.happylication.boardthebus.fragment.FavoritesFragment
+import com.happylication.boardthebus.injection.component.MainActivitySubcomponent
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

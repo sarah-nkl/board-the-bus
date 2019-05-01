@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.bizznizz.boardthebus"
+        applicationId "com.happylication.boardthebus"
         minSdkVersion Integer.parseInt(MIN_ANDROID_SDK_VERSION)
         targetSdkVersion Integer.parseInt(ANDROID_SDK_VERSION)
         versionCode 1
@@ -60,8 +60,13 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
+    // Room database
+    implementation "androidx.room:room-runtime:$ROOM_VERSION"
+    kapt "androidx.room:room-compiler:$ROOM_VERSION"
+
     // Stuff for testing
     testImplementation 'junit:junit:4.12'
+    testImplementation "androidx.room:room-testing:$ROOM_VERSION"
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
 }

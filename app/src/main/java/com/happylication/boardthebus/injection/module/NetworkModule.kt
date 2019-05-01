@@ -1,7 +1,7 @@
-package com.bizznizz.boardthebus.injection.module
+package com.happylication.boardthebus.injection.module
 
-import com.bizznizz.boardthebus.BusArrivalService
-import com.bizznizz.boardthebus.network.HeaderInterceptor
+import com.happylication.boardthebus.BusArrivalService
+import com.happylication.boardthebus.network.HeaderInterceptor
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
@@ -12,11 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Module which provides all required dependencies about network
- */
 @Module
-// Safe here as we are dealing with a Dagger 2 module
 @Suppress("unused")
 object NetworkModule {
 

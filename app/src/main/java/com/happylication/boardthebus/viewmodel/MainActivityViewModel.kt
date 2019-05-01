@@ -1,11 +1,11 @@
-package com.bizznizz.boardthebus.viewmodel
+package com.happylication.boardthebus.viewmodel
 
 import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.bizznizz.boardthebus.BusArrivalService
+import com.happylication.boardthebus.BusArrivalService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy

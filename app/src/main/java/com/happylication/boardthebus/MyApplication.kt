@@ -1,13 +1,13 @@
-package com.bizznizz.boardthebus
+package com.happylication.boardthebus
 
 import android.app.Activity
 import android.app.Application
-import com.bizznizz.boardthebus.injection.component.AppComponent
-import com.bizznizz.boardthebus.injection.component.DaggerAppComponent
 import com.facebook.stetho.Stetho
+import com.happylication.boardthebus.injection.component.AppComponent
+import com.happylication.boardthebus.injection.component.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.HasActivityInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
 class MyApplication : Application(), HasActivityInjector {

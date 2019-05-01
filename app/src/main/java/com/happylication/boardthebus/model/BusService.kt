@@ -1,4 +1,4 @@
-package com.bizznizz.boardthebus.model
+package com.happylication.boardthebus.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

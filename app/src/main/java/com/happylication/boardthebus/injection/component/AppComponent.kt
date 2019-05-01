@@ -1,9 +1,10 @@
-package com.bizznizz.boardthebus.injection.component
+package com.happylication.boardthebus.injection.component
 
-import com.bizznizz.boardthebus.MyApplication
-import com.bizznizz.boardthebus.injection.module.AppModule
-import com.bizznizz.boardthebus.injection.module.MainActivityBindingModule
-import com.bizznizz.boardthebus.injection.module.NetworkModule
+import com.happylication.boardthebus.MyApplication
+import com.happylication.boardthebus.injection.module.AppModule
+import com.happylication.boardthebus.injection.module.DataModule
+import com.happylication.boardthebus.injection.module.MainActivityBindingModule
+import com.happylication.boardthebus.injection.module.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -14,6 +15,7 @@ import javax.inject.Singleton
 @Component(modules = [
     AppModule::class,
     NetworkModule::class,
+    DataModule::class,
     AndroidInjectionModule::class,
     MainActivityBindingModule::class
 ])
