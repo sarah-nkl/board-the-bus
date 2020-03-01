@@ -11,13 +11,13 @@ import com.happylication.boardthebus.viewmodel.MainActivityViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     @Inject lateinit var viewModel: MainActivityViewModel
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
     private lateinit var binding: ActivityMainBinding
 
     private val onNavItemSelectedListener = { item: MenuItem ->
@@ -49,13 +49,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().run {
-            replace(R.id.container, fragment)
+            replace(R.id.content, fragment)
             addToBackStack(null)
             commit()
         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
     }
 }

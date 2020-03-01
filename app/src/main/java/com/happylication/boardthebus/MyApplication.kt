@@ -7,12 +7,12 @@ import com.happylication.boardthebus.injection.component.AppComponent
 import com.happylication.boardthebus.injection.component.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class MyApplication : Application(), HasActivityInjector {
+class MyApplication : Application(), HasAndroidInjector {
 
-    @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
     lateinit var appComponent: AppComponent
 
@@ -23,7 +23,7 @@ class MyApplication : Application(), HasActivityInjector {
         appComponent.inject(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return activityInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
     }
 }
