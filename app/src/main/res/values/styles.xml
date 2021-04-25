@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="BusServiceNumberText">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="EstimatedArrivalText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">@dimen/estimated_arrival_text_dimens</item>
+        <item name="android:layout_height">@dimen/estimated_arrival_text_dimens</item>
+    </style>
+</resources>

@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">Board the Bus</string>
+    <string name="app_name">SG Bus Arrival</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_search">Search</string>
+    <string name="search_hint">Search by bus stop code</string>
+    <string name="favorite_button_content_description">Add to Favorites</string>
+    <string name="clear_button_content_description">Clear search text</string>
 </resources>

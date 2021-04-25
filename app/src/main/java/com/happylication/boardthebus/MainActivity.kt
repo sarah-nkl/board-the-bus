@@ -1,55 +1,29 @@
 package com.happylication.boardthebus
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
+import androidx.navigation.ui.setupWithNavController
 import com.happylication.boardthebus.databinding.ActivityMainBinding
-import com.happylication.boardthebus.fragment.FavoritesFragment
-import com.happylication.boardthebus.fragment.SearchFragment
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity(), HasAndroidInjector {
+class MainActivity : DaggerAppCompatActivity() {
 
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
     private lateinit var binding: ActivityMainBinding
-
-    private val onNavItemSelectedListener = { item: MenuItem ->
-        when (item.itemId) {
-            R.id.navigation_favorites -> {
-                openFragment(FavoritesFragment())
-                true
-            }
-            R.id.navigation_search -> {
-                openFragment(SearchFragment())
-                true
-            }
-            else -> false
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.navigation.setOnNavigationItemSelectedListener(onNavItemSelectedListener)
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().run {
-            replace(R.id.content, fragment)
-            addToBackStack(null)
-            commit()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.navigation.setupWithNavController(navController)
+        binding.navigation.setOnNavigationItemSelectedListener { item ->
+            onNavDestinationSelected(item, navController)
         }
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return androidInjector
     }
 }

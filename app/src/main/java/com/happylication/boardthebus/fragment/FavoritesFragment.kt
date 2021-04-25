@@ -23,11 +23,18 @@ class FavoritesFragment : Fragment() {
         DataBindingUtil.bind<FragmentFavoritesBinding>(v)?.run {
             model = viewModel
         }
+        subscribeUI()
         return v
     }
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+
+    private fun subscribeUI() {
+        viewModel.favoriteBuses.observe(viewLifecycleOwner) {
+            viewModel.adapter.updateList(it)
+        }
     }
 }

@@ -15,7 +15,7 @@ abstract class SearchFragmentBindingModule {
     @Binds
     @IntoMap
     @ClassKey(SearchFragment::class)
-    abstract fun bindFavoritesFragmentInjectorFactory(factory: SearchFragmentSubcomponent.Factory): AndroidInjector.Factory<*>
+    abstract fun bindSearchFragmentInjectorFactory(factory: SearchFragmentSubcomponent.Factory): AndroidInjector.Factory<*>
 }
 
 @Scope

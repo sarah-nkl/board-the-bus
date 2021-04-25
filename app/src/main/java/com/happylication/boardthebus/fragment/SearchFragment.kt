@@ -1,65 +1,68 @@
 package com.happylication.boardthebus.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.happylication.boardthebus.R
+import com.happylication.boardthebus.BusArrivalService
+import com.happylication.boardthebus.TimeFormatter
+import com.happylication.boardthebus.adapters.SearchAdapter
 import com.happylication.boardthebus.database.AppDatabase
-import com.happylication.boardthebus.databinding.FragmentFavoritesBinding
+import com.happylication.boardthebus.database.entity.FavoriteBus
 import com.happylication.boardthebus.databinding.FragmentSearchBinding
-import com.happylication.boardthebus.model.mockNextBus
-import com.happylication.boardthebus.viewmodel.FavoritesFragmentViewModel
-import com.happylication.boardthebus.viewmodel.SearchAdapter
 import com.happylication.boardthebus.viewmodel.SearchViewModel
-import dagger.android.support.AndroidSupportInjection
-import kotlinx.coroutines.*
+import com.happylication.boardthebus.viewmodel.SearchViewModelFactory
+import dagger.android.support.DaggerFragment
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchFragment : Fragment() {
+class SearchFragment : DaggerFragment() {
 
-    @Inject lateinit var viewModel: SearchViewModel
+    @Inject lateinit var timeFormatter: TimeFormatter
+    @Inject lateinit var busArrivalService: BusArrivalService
+    @Inject lateinit var database: AppDatabase
+
+    private val viewModel: SearchViewModel by viewModels {
+        SearchViewModelFactory(busArrivalService, database, this)
+    }
+
     private var searchJob: Job? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             this.model = viewModel
+            lifecycleOwner = viewLifecycleOwner
         }
 
-        binding.etSearchBus.doAfterTextChanged {
-            search(it.toString())
+        val adapter = SearchAdapter(timeFormatter, emptyList()) { busService ->
+            lifecycleScope.launch {
+                viewModel.addToFavorites(FavoriteBus(busService.ServiceNo))
+            }
         }
+
+        binding.adapter = adapter
+        binding.etSearchBus.doAfterTextChanged { search(it.toString(), adapter) }
 
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
-
-    private fun search(query: String) {
+    private fun search(query: String, adapter: SearchAdapter) {
         // Make sure we cancel the previous job before creating a new one
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             try {
-                val busArrival = viewModel.search(query)
-                viewModel.adapter.updateList(
-                    busArrival.Services?.map {
-                        it.NextBus ?: mockNextBus
-                    } ?: emptyList()
+                val services = viewModel.search(query)
+                adapter.updateList(
+                    services ?: emptyList()
                 )
             } catch (e: Exception) {
                 Log.d("SearchFragment", "error loading bus arrivals", e)
             }
         }
     }
-
-
 }

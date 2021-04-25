@@ -1,7 +1,6 @@
 package com.happylication.boardthebus
 
 import com.happylication.boardthebus.model.BusArrival
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -9,5 +9,6 @@ data class BusService(
     val Operator: String,
     val NextBus: NextBus?,
     val NextBus2: NextBus?,
-    val NextBus3: NextBus?
+    val NextBus3: NextBus?,
+    @Transient var isFavorite: Boolean = false
 ) : Parcelable

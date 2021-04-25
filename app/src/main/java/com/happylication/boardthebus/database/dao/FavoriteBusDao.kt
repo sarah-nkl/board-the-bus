@@ -1,5 +1,6 @@
 package com.happylication.boardthebus.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,13 +11,13 @@ import com.happylication.boardthebus.database.entity.FavoriteBus
 interface FavoriteBusDao {
 
     @Query("SELECT * FROM favoritebus")
-    fun getAll(): List<FavoriteBus>
+    fun getAll(): LiveData<List<FavoriteBus>>
 
     @Query("SELECT * FROM favoritebus WHERE busNo IN (:busNos)")
     fun loadAllByIds(busNos: IntArray): List<FavoriteBus>
 
     @Insert
-    fun insertAll(vararg buses: FavoriteBus)
+    suspend fun insertAll(vararg buses: FavoriteBus)
 
     @Delete
     fun delete(bus: FavoriteBus)

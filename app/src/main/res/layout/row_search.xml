@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="?listPreferredItemHeight"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tv_bus_number"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Bus number 1" />
+    <data>
+        <variable
+            name="timeFormatter"
+            type="com.happylication.boardthebus.TimeFormatter" />
+        <variable
+            name="model"
+            type="com.happylication.boardthebus.model.BusService" />
+    </data>
 
-    <TextView
-        android:id="@+id/tv_bus_timing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="15 min" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?listPreferredItemHeight"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_bus_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{model.serviceNo}"
+            style="@style/BusServiceNumberText"
+            tools:text="Bus number 1" />
+
+        <TextView
+            android:id="@+id/tv_bus_timing"
+            android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus.estimatedArrival)}"
+            style="@style/EstimatedArrivalText"
+            tools:text="15 min" />
+
+        <ImageButton
+            android:id="@+id/ib_favorite"
+            android:layout_width="@dimen/estimated_arrival_text_dimens"
+            android:layout_height="@dimen/estimated_arrival_text_dimens"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite_button_content_description"
+            android:tint="?android:attr/textColorSecondary"
+            app:srcCompat="@drawable/favorite_icon_selector"
+            app:checked="@{model.isFavorite}" />
+
+    </LinearLayout>
+
+</layout>
