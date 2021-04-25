@@ -18,14 +18,12 @@ object NetworkModule {
 
     @Provides
     @Reusable
-    @JvmStatic
     internal fun provideBusArrivalService(retrofit: Retrofit): BusArrivalService {
         return retrofit.create(BusArrivalService::class.java)
     }
 
     @Provides
     @Reusable
-    @JvmStatic
     internal fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HeaderInterceptor("AccountKey" to "dMnJYa7fSwysMqUpPItfbA=="))
@@ -35,7 +33,6 @@ object NetworkModule {
 
     @Provides
     @Reusable
-    @JvmStatic
     internal fun provideRetrofitInterface(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://datamall2.mytransport.sg/ltaodataservice/")

@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.happylication.boardthebus.databinding.ActivityMainBinding
 import com.happylication.boardthebus.fragment.FavoritesFragment
-import com.happylication.boardthebus.viewmodel.MainActivityViewModel
+import com.happylication.boardthebus.fragment.SearchFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -16,22 +16,17 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
-    @Inject lateinit var viewModel: MainActivityViewModel
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
     private lateinit var binding: ActivityMainBinding
 
     private val onNavItemSelectedListener = { item: MenuItem ->
         when (item.itemId) {
             R.id.navigation_favorites -> {
-                openFragment(FavoritesFragment.newInstance())
+                openFragment(FavoritesFragment())
                 true
             }
-            R.id.navigation_dashboard -> {
-
-                true
-            }
-            R.id.navigation_notifications -> {
-
+            R.id.navigation_search -> {
+                openFragment(SearchFragment())
                 true
             }
             else -> false
@@ -42,7 +37,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.model = viewModel
 
         binding.navigation.setOnNavigationItemSelectedListener(onNavItemSelectedListener)
     }

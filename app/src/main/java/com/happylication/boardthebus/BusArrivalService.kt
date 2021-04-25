@@ -11,5 +11,8 @@ private const val SERVICE_NO = "ServiceNo"
 interface BusArrivalService {
 
     @GET("BusArrivalv2")
-    fun getBusArrivalByBus(@Query(BUS_STOP_CODE) busStopCode: String, @Query(SERVICE_NO) serviceNo: String): Single<BusArrival>
+    suspend fun getBusArrivalByBus(
+        @Query(BUS_STOP_CODE) busStopCode: String,
+        @Query(SERVICE_NO) serviceNo: String? = null
+    ): BusArrival
 }

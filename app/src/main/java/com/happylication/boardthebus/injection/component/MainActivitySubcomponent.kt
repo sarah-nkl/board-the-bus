@@ -5,10 +5,15 @@ import com.happylication.boardthebus.fragment.FavoritesFragment
 import com.happylication.boardthebus.injection.module.FavoritesFragmentBindingModule
 import com.happylication.boardthebus.injection.module.MainActivityModule
 import com.happylication.boardthebus.injection.module.MainActivityScope
+import com.happylication.boardthebus.injection.module.SearchFragmentBindingModule
 import dagger.Subcomponent
 import dagger.android.AndroidInjector
 
-@Subcomponent(modules = [MainActivityModule::class, FavoritesFragmentBindingModule::class])
+@Subcomponent(modules = [
+    MainActivityModule::class,
+    FavoritesFragmentBindingModule::class,
+    SearchFragmentBindingModule::class
+])
 @MainActivityScope
 interface MainActivitySubcomponent : AndroidInjector<MainActivity> {
     @Subcomponent.Factory

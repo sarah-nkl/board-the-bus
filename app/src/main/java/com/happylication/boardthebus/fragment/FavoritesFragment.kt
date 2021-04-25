@@ -30,8 +30,4 @@ class FavoritesFragment : Fragment() {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
-
-    companion object {
-        fun newInstance(): FavoritesFragment = FavoritesFragment()
-    }
 }
