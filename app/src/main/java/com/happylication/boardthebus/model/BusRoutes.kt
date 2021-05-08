@@ -4,11 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class BusService(
+data class BusRoutes(
     val ServiceNo: String,
     val Operator: String,
-    val NextBus: NextBus?,
-    val NextBus2: NextBus?,
-    val NextBus3: NextBus?,
-    var isFavorite: Boolean = false
+    val Direction: Int,
+    val StopSequence: Int,
+    val BusStopCode: String
 ) : Parcelable

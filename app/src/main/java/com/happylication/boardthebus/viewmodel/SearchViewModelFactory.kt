@@ -6,14 +6,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.happylication.boardthebus.BusArrivalService
+import com.happylication.boardthebus.JsonUtil
 import com.happylication.boardthebus.database.AppDatabase
 import com.happylication.boardthebus.database.entity.FavoriteBus
 import com.happylication.boardthebus.model.BusArrival
 import javax.inject.Inject
 
+@Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(
     private val busArrivalService: BusArrivalService,
     private val database: AppDatabase,
+    private val jsonUtil: JsonUtil,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
@@ -23,6 +26,6 @@ class SearchViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return SearchViewModel(busArrivalService, database) as T
+        return SearchViewModel(busArrivalService, database, jsonUtil) as T
     }
 }

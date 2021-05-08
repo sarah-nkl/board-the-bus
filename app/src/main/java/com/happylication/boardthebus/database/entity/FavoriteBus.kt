@@ -1,10 +1,9 @@
 package com.happylication.boardthebus.database.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
+@Entity(primaryKeys = ["busNo", "busStopNo"])
 data class FavoriteBus(
-    @PrimaryKey val busNo: String
+    val busNo: String,
+    val busStopNo: String
 )

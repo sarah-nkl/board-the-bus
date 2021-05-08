@@ -46,7 +46,9 @@ class SearchAdapter(
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val bus = busList[position]
         holder.binding.ibFavorite.setOnClickListener {
-            starClickListener.invoke(bus)
+            starClickListener(bus)
+            bus.isFavorite = !bus.isFavorite
+            notifyItemChanged(position)
         }
         holder.bind(bus, timeFormatterHelper)
     }

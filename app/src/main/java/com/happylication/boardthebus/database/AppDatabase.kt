@@ -7,7 +7,7 @@ import com.happylication.boardthebus.database.dao.FavoriteBusStopDao
 import com.happylication.boardthebus.database.entity.FavoriteBus
 import com.happylication.boardthebus.database.entity.FavoriteBusStop
 
-@Database(entities = [FavoriteBus::class, FavoriteBusStop::class], version = 2)
+@Database(entities = [FavoriteBus::class, FavoriteBusStop::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun favoriteBusDao(): FavoriteBusDao
     abstract fun favoriteBusStopDao(): FavoriteBusStopDao

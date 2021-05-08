@@ -9,6 +9,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.happylication.boardthebus.BusArrivalService
+import com.happylication.boardthebus.JsonUtil
 import com.happylication.boardthebus.TimeFormatter
 import com.happylication.boardthebus.adapters.SearchAdapter
 import com.happylication.boardthebus.database.AppDatabase
@@ -26,9 +27,10 @@ class SearchFragment : DaggerFragment() {
     @Inject lateinit var timeFormatter: TimeFormatter
     @Inject lateinit var busArrivalService: BusArrivalService
     @Inject lateinit var database: AppDatabase
+    @Inject lateinit var jsonUtil: JsonUtil
 
     private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(busArrivalService, database, this)
+        SearchViewModelFactory(busArrivalService, database, jsonUtil,  this)
     }
 
     private var searchJob: Job? = null
@@ -41,7 +43,15 @@ class SearchFragment : DaggerFragment() {
 
         val adapter = SearchAdapter(timeFormatter, emptyList()) { busService ->
             lifecycleScope.launch {
-                viewModel.addToFavorites(FavoriteBus(busService.ServiceNo))
+                val favoriteBus = FavoriteBus(
+                    busNo = busService.ServiceNo,
+                    busStopNo = "83139"
+                )
+                if (busService.isFavorite) {
+                    viewModel.removeFromFavorites(favoriteBus)
+                } else {
+                    viewModel.addToFavorites(favoriteBus)
+                }
             }
         }
 

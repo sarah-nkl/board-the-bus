@@ -16,6 +16,9 @@ interface FavoriteBusDao {
     @Query("SELECT * FROM favoritebus WHERE busNo IN (:busNos)")
     fun loadAllByIds(busNos: IntArray): List<FavoriteBus>
 
+    @Query("SELECT * FROM favoritebus WHERE busStopNo = :busStopNo")
+    suspend fun loadByBusStopId(busStopNo: String): List<FavoriteBus>
+
     @Insert
     suspend fun insertAll(vararg buses: FavoriteBus)
 

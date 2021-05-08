@@ -21,5 +21,5 @@ interface FavoriteBusStopDao {
     fun insertAll(vararg buses: FavoriteBusStop)
 
     @Delete
-    fun delete(bus: FavoriteBus)
+    suspend fun delete(bus: FavoriteBus)
 }

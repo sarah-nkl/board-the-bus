@@ -14,4 +14,11 @@ interface BusArrivalService {
         @Query(BUS_STOP_CODE) busStopCode: String,
         @Query(SERVICE_NO) serviceNo: String? = null
     ): BusArrival
+
+    /**
+    Returns detailed route information for all services currently in operation,
+    including: all bus stops along each route, first/last bus timings for each stop.
+     **/
+    @GET("BusRoutes")
+    suspend fun getBusRoutes(): BusArrival
 }
