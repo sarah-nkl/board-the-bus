@@ -16,6 +16,6 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:drawable="@drawable/ic_star_filled_24dp" android:state_selected="true"/>
+    <item android:drawable="@drawable/ic_stars_24" android:state_selected="true"/>
     <item android:drawable="@drawable/ic_star_outline_24"/>
 </selector>

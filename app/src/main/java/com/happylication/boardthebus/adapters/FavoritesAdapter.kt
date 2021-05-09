@@ -6,19 +6,36 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.happylication.boardthebus.R
+import com.happylication.boardthebus.TimeFormatter
 import com.happylication.boardthebus.database.entity.FavoriteBus
+import com.happylication.boardthebus.databinding.RowFavoritesBinding
+import com.happylication.boardthebus.databinding.RowSearchBinding
+import com.happylication.boardthebus.model.BusService
 
 class FavoritesAdapter(
     var busList: List<FavoriteBus>
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
-    class FavoritesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvBusNumber = view.findViewById<TextView>(R.id.tv_bus_number)
+    class FavoritesViewHolder(
+        val binding: RowFavoritesBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: FavoriteBus) {
+            binding.apply {
+                model = item
+                executePendingBindings()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return FavoritesViewHolder(layoutInflater.inflate(R.layout.row_favorites, parent, false))
+        return FavoritesViewHolder(
+            RowFavoritesBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     fun updateList(busList: List<FavoriteBus>) {
@@ -29,6 +46,7 @@ class FavoritesAdapter(
     override fun getItemCount() = busList.size
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
-        holder.tvBusNumber.text = busList[position].busNo.toString()
+        val bus = busList[position]
+        holder.bind(bus)
     }
 }
