@@ -7,10 +7,10 @@
     <data>
         <variable
             name="timeFormatter"
-            type="com.happylication.boardthebus.TimeFormatter" />
+            type="com.appcessible.boardthebus.TimeFormatter" />
         <variable
             name="model"
-            type="com.happylication.boardthebus.model.BusService" />
+            type="com.appcessible.boardthebus.model.BusService" />
     </data>
 
     <LinearLayout

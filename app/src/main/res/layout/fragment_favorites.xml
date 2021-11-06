@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.happylication.boardthebus.viewmodel.FavoritesFragmentViewModel" />
+            type="com.appcessible.boardthebus.viewmodel.FavoritesFragmentViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -6,10 +6,10 @@
     <data>
         <variable
             name="adapter"
-            type="com.happylication.boardthebus.adapters.SearchAdapter" />
+            type="com.appcessible.boardthebus.adapters.SearchAdapter" />
         <variable
             name="model"
-            type="com.happylication.boardthebus.viewmodel.SearchViewModel" />
+            type="com.appcessible.boardthebus.viewmodel.SearchViewModel" />
     </data>
 
     <LinearLayout

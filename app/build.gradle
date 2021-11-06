@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.happylication.boardthebus"
+        applicationId "com.appcessible.boardthebus"
         minSdkVersion Integer.parseInt(MIN_ANDROID_SDK_VERSION)
         targetSdkVersion Integer.parseInt(ANDROID_SDK_VERSION)
         versionCode 1
