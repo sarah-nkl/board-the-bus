@@ -11,24 +11,30 @@ import com.appcessible.boardthebus.database.entity.BusStop
 @Dao
 interface BusStopDao {
 
-    @Query("SELECT * FROM busstop")
+    @Query("SELECT * FROM BusStop")
     fun getAll(): LiveData<List<BusStop>>
 
     @Query("SELECT * FROM BusStop WHERE busStopNo IN (:busStopNos)")
     suspend fun loadAllByIds(busStopNos: List<String>): List<BusStop>
 
+    @Query("SELECT * FROM BusStop WHERE busStopNo LIKE '%' || :busStopNo || '%'")
+    suspend fun loadById(busStopNo: String): List<BusStop>
+
+    @Query("SELECT * FROM BusStop WHERE description LIKE '%' || :busStopName || '%'")
+    suspend fun loadByName(busStopName: String): List<BusStop>
+
     @Insert
     fun insertAll(buses: List<BusStop>)
 
-    @Query("SELECT * FROM busstop WHERE isFavorite = 1")
+    @Query("SELECT * FROM BusStop WHERE isFavorite = 1")
     fun getAllFavorite(): LiveData<List<BusStop>>
 
     @Delete
     suspend fun delete(busStop: BusStop)
 
-    @Query("UPDATE busstop SET isFavorite = 0 WHERE busStopNo = :id")
+    @Query("UPDATE BusStop SET isFavorite = 0 WHERE busStopNo = :id")
     suspend fun removeFromFavorite(id: String)
 
-    @Query("UPDATE busstop SET isFavorite = 1 WHERE busStopNo = :id")
+    @Query("UPDATE BusStop SET isFavorite = 1 WHERE busStopNo = :id")
     suspend fun addToFavorite(id: String)
 }

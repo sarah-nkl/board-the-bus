@@ -11,17 +11,13 @@ import androidx.lifecycle.lifecycleScope
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.JsonUtil
 import com.appcessible.boardthebus.TimeFormatter
-import com.appcessible.boardthebus.adapters.BusStopAdapter
 import com.appcessible.boardthebus.adapters.SearchAdapter
 import com.appcessible.boardthebus.database.AppDatabase
-import com.appcessible.boardthebus.database.entity.Bus
-import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.FragmentSearchBinding
 import com.appcessible.boardthebus.viewmodel.SearchViewModel
 import com.appcessible.boardthebus.viewmodel.SearchViewModelFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,6 +29,8 @@ class SearchFragment : DaggerFragment() {
     @Inject lateinit var database: AppDatabase
     @Inject lateinit var jsonUtil: JsonUtil
 
+    private lateinit var adapter: SearchAdapter
+
     private val viewModel: SearchViewModel by viewModels {
         SearchViewModelFactory(busArrivalService, database, jsonUtil,  this)
     }
@@ -43,14 +41,10 @@ class SearchFragment : DaggerFragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        val adapter = BusStopAdapter(emptyList()) { busStop ->
+        adapter = SearchAdapter(emptyList()) { busStop ->
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    if (busStop.isFavorite) {
-                        viewModel.removeFromFavorites(busStop)
-                    } else {
-                        viewModel.addToFavorites(busStop)
-                    }
+                    //TODO
                 }
             }
         }
@@ -58,12 +52,16 @@ class SearchFragment : DaggerFragment() {
         binding.adapter = adapter
         binding.etSearchBus.doAfterTextChanged { search(it.toString()) }
 
-        viewModel.getBusStopsLiveData().observe(this, adapter::updateList)
+        viewModel.getSearchResultsLiveData().observe(this, adapter::updateList)
 
         return binding.root
     }
 
     private fun search(query: String) {
+        if (query.isEmpty()) {
+            adapter.updateList(emptyList())
+            return
+        }
         lifecycleScope.launchWhenResumed {
             try {
                 viewModel.search(query)

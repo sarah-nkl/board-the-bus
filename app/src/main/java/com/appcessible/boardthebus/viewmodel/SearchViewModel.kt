@@ -3,14 +3,12 @@ package com.appcessible.boardthebus.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.JsonUtil
 import com.appcessible.boardthebus.database.AppDatabase
-import com.appcessible.boardthebus.database.entity.Bus
 import com.appcessible.boardthebus.database.entity.BusStop
-import com.appcessible.boardthebus.model.BusService
-import kotlinx.coroutines.launch
+import com.appcessible.boardthebus.model.SearchResult
+import com.appcessible.boardthebus.model.SearchResultLabel
 
 
 class SearchViewModel(
@@ -19,7 +17,7 @@ class SearchViewModel(
     private val jsonUtil: JsonUtil
 ) : ViewModel() {
 
-    private val busStopsLiveData = MutableLiveData<List<BusStop>>(emptyList())
+    private val searchResultsLiveData = MutableLiveData<List<SearchResult>>(emptyList())
 
 //    suspend fun search(queryString: String): List<BusService>? {
 //        val busArrival = busArrivalService.getBusArrivalByBus(queryString)
@@ -27,8 +25,17 @@ class SearchViewModel(
 //    }
 
     suspend fun search(queryString: String) {
-        val busStops = database.busStopDao().loadAllByIds(listOf(queryString))
-        busStopsLiveData.postValue(busStops)
+        val result = mutableListOf<SearchResult>()
+        result.addAll(database.busStopDao().loadById(queryString).map {
+            SearchResult(it.busStopNo, SearchResultLabel.BUS_STOP)
+        })
+        result.addAll(database.busStopDao().loadByName(queryString).map {
+            SearchResult(it.description, SearchResultLabel.BUS_STOP)
+        })
+        result.addAll(database.busDao().loadById(queryString).map {
+            SearchResult(it.busNo, SearchResultLabel.BUS_SERVICE)
+        })
+        searchResultsLiveData.postValue(result)
     }
 
     suspend fun addToFavorites(busStop: BusStop) {
@@ -39,7 +46,7 @@ class SearchViewModel(
         database.busStopDao().removeFromFavorite(busStop.busStopNo)
     }
 
-    fun getBusStopsLiveData(): LiveData<List<BusStop>> {
-        return busStopsLiveData
+    fun getSearchResultsLiveData(): LiveData<List<SearchResult>> {
+        return searchResultsLiveData
     }
 }

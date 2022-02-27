@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.appcessible.boardthebus.database.entity.Bus
+import com.appcessible.boardthebus.database.entity.BusStop
 
 @Dao
 interface BusDao {
@@ -15,6 +16,9 @@ interface BusDao {
 
     @Query("SELECT * FROM bus WHERE busNo IN (:busNos)")
     fun loadAllByIds(busNos: IntArray): List<Bus>
+
+    @Query("SELECT * FROM Bus WHERE busNo LIKE '%' || :busServiceId || '%'")
+    suspend fun loadById(busServiceId: String): List<Bus>
 
     @Insert
     suspend fun insertAll(buses: List<Bus>)

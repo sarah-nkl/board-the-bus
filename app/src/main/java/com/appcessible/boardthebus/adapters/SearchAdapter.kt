@@ -3,24 +3,21 @@ package com.appcessible.boardthebus.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.appcessible.boardthebus.TimeFormatter
-import com.appcessible.boardthebus.databinding.RowBusArrivalBinding
-import com.appcessible.boardthebus.model.BusService
+import com.appcessible.boardthebus.databinding.RowSearchBinding
+import com.appcessible.boardthebus.model.SearchResult
 
 class SearchAdapter(
-    private val timeFormatterHelper: TimeFormatter,
-    var busList: List<BusService>,
-    private val starClickListener: (BusService) -> Unit
+    var resultList: List<SearchResult>,
+    private val resultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(
-        val binding: RowBusArrivalBinding
+        val binding: RowSearchBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: BusService, timeFormatterHelper: TimeFormatter) {
+        fun bind(item: SearchResult) {
             binding.apply {
                 model = item
-                timeFormatter = timeFormatterHelper
                 executePendingBindings()
             }
         }
@@ -28,7 +25,7 @@ class SearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            RowBusArrivalBinding.inflate(
+            RowSearchBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -36,20 +33,18 @@ class SearchAdapter(
         )
     }
 
-    fun updateList(busList: List<BusService>) {
-        this.busList = busList
+    fun updateList(busList: List<SearchResult>) {
+        this.resultList = busList
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() = busList.size
+    override fun getItemCount() = resultList.size
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val bus = busList[position]
-        holder.binding.ibFavorite.setOnClickListener {
-            starClickListener(bus)
-            bus.isFavorite = !bus.isFavorite
-            notifyItemChanged(position)
+        val bus = resultList[position]
+        holder.binding.root.setOnClickListener {
+            resultClickListener(bus)
         }
-        holder.bind(bus, timeFormatterHelper)
+        holder.bind(bus)
     }
 }

@@ -36,9 +36,9 @@
             android:layout_height="@dimen/estimated_arrival_text_dimens"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/favorite_button_content_description"
-            android:tint="?colorSecondary"
             app:srcCompat="@drawable/favorite_icon_selector"
-            app:checked="@{model.isFavorite}" />
+            app:checked="@{model.isFavorite}"
+            app:tint="?colorSecondary" />
 
     </LinearLayout>
 
