@@ -16,7 +16,7 @@ object DataModule {
     @Provides
     @Reusable
     internal fun provideRoomDatabase(context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "board-the-bus").build()
+        return AppDatabase.getInstance(context)
     }
 
     @Provides

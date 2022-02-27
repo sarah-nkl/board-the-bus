@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.appcessible.boardthebus.TimeFormatter
-import com.appcessible.boardthebus.databinding.RowSearchBinding
+import com.appcessible.boardthebus.databinding.RowBusArrivalBinding
 import com.appcessible.boardthebus.model.BusService
 
 class SearchAdapter(
-    val timeFormatterHelper: TimeFormatter,
+    private val timeFormatterHelper: TimeFormatter,
     var busList: List<BusService>,
     private val starClickListener: (BusService) -> Unit
 ) : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(
-        val binding: RowSearchBinding
+        val binding: RowBusArrivalBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: BusService, timeFormatterHelper: TimeFormatter) {
@@ -28,7 +28,7 @@ class SearchAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            RowSearchBinding.inflate(
+            RowBusArrivalBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

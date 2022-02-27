@@ -4,14 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.appcessible.boardthebus.database.entity.BusStop
-import com.appcessible.boardthebus.databinding.RowFavoritesBinding
+import com.appcessible.boardthebus.databinding.RowBusstopBinding
 
-class FavoritesAdapter(
-    var busStopList: List<BusStop>
-) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
+class BusStopAdapter(
+    var busStopList: List<BusStop>,
+    private val starClickListener: (BusStop) -> Unit
+) : RecyclerView.Adapter<BusStopAdapter.SearchViewHolder>() {
 
-    class FavoritesViewHolder(
-        val binding: RowFavoritesBinding
+    class SearchViewHolder(
+        val binding: RowBusstopBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: BusStop) {
@@ -22,9 +23,9 @@ class FavoritesAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
-        return FavoritesViewHolder(
-            RowFavoritesBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+        return SearchViewHolder(
+            RowBusstopBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -39,8 +40,13 @@ class FavoritesAdapter(
 
     override fun getItemCount() = busStopList.size
 
-    override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
         val busStop = busStopList[position]
+        holder.binding.ibFavorite.setOnClickListener {
+            starClickListener(busStop)
+            busStop.isFavorite = !busStop.isFavorite
+            notifyItemChanged(position)
+        }
         holder.bind(busStop)
     }
 }

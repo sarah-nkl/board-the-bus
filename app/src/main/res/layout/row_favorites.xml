@@ -5,7 +5,7 @@
     <data>
         <variable
             name="model"
-            type="com.appcessible.boardthebus.database.entity.FavoriteBus" />
+            type="com.appcessible.boardthebus.database.entity.BusStop" />
     </data>
 
     <LinearLayout
@@ -17,18 +17,18 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_bus_number"
+            android:id="@+id/tv_bus_stop_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.busNo}"
+            android:text="@{model.busStopNo}"
             style="@style/BusServiceNumberText"
             tools:text="Bus number 1" />
 
         <TextView
-            android:id="@+id/tv_bus_stop_number"
+            android:id="@+id/tv_bus_stop_road_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.busStopNo}"
+            android:text="@{model.roadName}"
             tools:text="83139" />
 
     </LinearLayout>

@@ -2,17 +2,21 @@ package com.appcessible.boardthebus
 
 import android.app.Activity
 import android.app.Application
+import androidx.work.Configuration
 import com.facebook.stetho.Stetho
 import com.appcessible.boardthebus.injection.component.AppComponent
 import com.appcessible.boardthebus.injection.component.DaggerAppComponent
+import com.appcessible.boardthebus.workers.BusWorkerFactory
+import com.appcessible.boardthebus.workers.UpdateWorkerFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-class MyApplication : Application(), HasAndroidInjector {
+class MyApplication : Application(), HasAndroidInjector, Configuration.Provider {
 
     @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    @Inject lateinit var busWorkerFactory: BusWorkerFactory
 
     lateinit var appComponent: AppComponent
 
@@ -26,4 +30,10 @@ class MyApplication : Application(), HasAndroidInjector {
     override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
     }
+
+    override fun getWorkManagerConfiguration(): Configuration =
+        Configuration.Builder()
+            .setMinimumLoggingLevel(android.util.Log.INFO)
+            .setWorkerFactory(busWorkerFactory)
+            .build()
 }

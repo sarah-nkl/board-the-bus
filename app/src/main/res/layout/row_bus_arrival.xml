@@ -34,6 +34,20 @@
             android:id="@+id/tv_bus_timing"
             android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus.estimatedArrival)}"
             style="@style/EstimatedArrivalText"
+            android:layout_marginEnd="8dp"
+            tools:text="15 min" />
+
+        <TextView
+            android:id="@+id/tv_bus_timing_2"
+            android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus2.estimatedArrival)}"
+            style="@style/EstimatedArrivalText"
+            android:layout_marginEnd="8dp"
+            tools:text="15 min" />
+
+        <TextView
+            android:id="@+id/tv_bus_timing_3"
+            android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus3.estimatedArrival)}"
+            style="@style/EstimatedArrivalText"
             tools:text="15 min" />
 
         <ImageButton

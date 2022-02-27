@@ -8,9 +8,6 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.JsonUtil
 import com.appcessible.boardthebus.database.AppDatabase
-import com.appcessible.boardthebus.database.entity.FavoriteBus
-import com.appcessible.boardthebus.model.BusArrival
-import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 class SearchViewModelFactory(

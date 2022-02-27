@@ -25,7 +25,7 @@ class FavoritesFragment : DaggerFragment() {
     }
 
     private fun subscribeUI() {
-        viewModel.favoriteBuses.observe(viewLifecycleOwner) {
+        viewModel.busStops.observe(viewLifecycleOwner) {
             viewModel.adapter.updateList(it)
         }
     }

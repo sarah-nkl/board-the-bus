@@ -1,6 +1,6 @@
 package com.appcessible.boardthebus
 
-import com.appcessible.boardthebus.model.BusArrival
+import com.appcessible.boardthebus.model.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,9 +16,24 @@ interface BusArrivalService {
     ): BusArrival
 
     /**
-    Returns detailed route information for all services currently in operation,
-    including: all bus stops along each route, first/last bus timings for each stop.
+     * Returns detailed route information for all services currently in operation,
+     * including: all bus stops along each route, first/last bus timings for each stop.
      **/
     @GET("BusRoutes")
-    suspend fun getBusRoutes(): BusArrival
+    suspend fun getBusRoutes(): List<BusRoutes>
+
+    /**
+     * Returns detailed information for all bus stops currently being serviced by
+     * buses, including: Bus Stop Code, location coordinates.
+     */
+    @GET("BusStops")
+    suspend fun getBusStops(): BusStopsResponse
+
+    /**
+     * Returns detailed service information for all buses currently in
+     * operation, including: first stop, last stop, peak / offpeak frequency of
+     * dispatch.
+     */
+    @GET("BusServices")
+    suspend fun getBusServices(): List<BusService>
 }

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.appcessible.boardthebus.adapters.SearchAdapter" />
+            type="com.appcessible.boardthebus.adapters.BusStopAdapter" />
         <variable
             name="model"
             type="com.appcessible.boardthebus.viewmodel.SearchViewModel" />
@@ -40,6 +40,7 @@
                     android:id="@+id/et_search_bus"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/search_bar_height"
+                    android:imeActionLabel="@string/title_search"
                     tools:text="11111" />
 
             </com.google.android.material.textfield.TextInputLayout>
