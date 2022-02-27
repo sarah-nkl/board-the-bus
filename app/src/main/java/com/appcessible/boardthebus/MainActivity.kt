@@ -22,7 +22,7 @@ class MainActivity : DaggerAppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         val navController = navHostFragment.navController
         binding.navigation.setupWithNavController(navController)
-        binding.navigation.setOnNavigationItemSelectedListener { item ->
+        binding.navigation.setOnItemSelectedListener { item ->
             onNavDestinationSelected(item, navController)
         }
     }

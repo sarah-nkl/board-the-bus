@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.appcessible.boardthebus.BusArrivalService
@@ -31,8 +32,8 @@ class SearchFragment : DaggerFragment() {
 
     private lateinit var adapter: SearchAdapter
 
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(busArrivalService, database, jsonUtil,  this)
+    private val viewModel: SearchViewModel by activityViewModels {
+        SearchViewModelFactory(busArrivalService, database, jsonUtil, requireActivity())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
