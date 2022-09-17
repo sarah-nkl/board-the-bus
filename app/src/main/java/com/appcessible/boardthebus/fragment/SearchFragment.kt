@@ -42,10 +42,10 @@ class SearchFragment : DaggerFragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        adapter = SearchAdapter(emptyList()) { busStop ->
+        adapter = SearchAdapter(timeFormatter) { busStop ->
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
-                    //TODO
+                    retrieveBusArrival(busStop.busStopCode)
                 }
             }
         }
@@ -53,19 +53,30 @@ class SearchFragment : DaggerFragment() {
         binding.adapter = adapter
         binding.etSearchBus.doAfterTextChanged { search(it.toString()) }
 
-        viewModel.getSearchResultsLiveData().observe(this, adapter::updateList)
+        viewModel.getSearchResultsLiveData().observe(viewLifecycleOwner, adapter::updateResultList)
+        viewModel.getBusArrivalResultsLiveData().observe(viewLifecycleOwner, adapter::updateBusArrivalList)
 
         return binding.root
     }
 
     private fun search(query: String) {
         if (query.isEmpty()) {
-            adapter.updateList(emptyList())
+            adapter.updateResultList(emptyList())
             return
         }
         lifecycleScope.launchWhenResumed {
             try {
                 viewModel.search(query)
+            } catch (e: Exception) {
+                Log.d("SearchFragment", "error loading bus stops", e)
+            }
+        }
+    }
+
+    private fun retrieveBusArrival(query: String) {
+        lifecycleScope.launchWhenResumed {
+            try {
+                viewModel.searchBusArrival(query)
             } catch (e: Exception) {
                 Log.d("SearchFragment", "error loading bus stops", e)
             }
