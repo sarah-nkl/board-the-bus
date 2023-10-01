@@ -14,7 +14,7 @@ import com.appcessible.boardthebus.database.entity.Bus
 import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.workers.UpdateWorker
 
-@Database(entities = [Bus::class, BusStop::class], version = 1)
+@Database(entities = [Bus::class, BusStop::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun busDao(): BusDao
     abstract fun busStopDao(): BusStopDao
