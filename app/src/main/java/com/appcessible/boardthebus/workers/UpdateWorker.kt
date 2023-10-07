@@ -26,16 +26,16 @@ class UpdateWorker(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             val busStops = service.getBusStops().value
-//            val buses = service.getBusServices()
+            val buses = service.getBusServices().value
             val database = AppDatabase.getInstance(appContext)
             val busStopList = busStops!!.map {
                 BusStop(it.BusStopCode, it.RoadName, it.Description, it.Longitude, it.Latitude, false)
             }
-//            val busList = buses.map {
-//                Bus(it.ServiceNo)
-//            }
+            val busList = buses!!.map {
+                Bus(it.ServiceNo)
+            }
             database.busStopDao().insertAll(busStopList)
-//            database.busDao().insertAll(busList)
+            database.busDao().insertAll(busList)
         } catch (e: Exception) {
             Log.e("UpdateWorker", "UpdateWorker failed", e)
             Result.failure()

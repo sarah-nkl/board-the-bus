@@ -7,7 +7,7 @@ import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.RowFavoritesBinding
 
 class FavoritesAdapter(
-    var busStopList: List<BusStop>
+    private var busStopList: List<BusStop>
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
     class FavoritesViewHolder(

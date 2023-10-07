@@ -33,9 +33,9 @@ class SearchViewModel(
         result.addAll(database.busStopDao().loadByName(queryString).map {
             SearchResult(it.busStopNo, it.description, SearchResultLabel.BUS_STOP)
         })
-//        result.addAll(database.busDao().loadById(queryString).map {
-//            SearchResult(it.busNo, SearchResultLabel.BUS_SERVICE)
-//        })
+        result.addAll(database.busDao().loadById(queryString).map {
+            SearchResult(it.busNo, it.busNo, SearchResultLabel.BUS_SERVICE)
+        })
         searchResultsLiveData.postValue(result)
     }
 

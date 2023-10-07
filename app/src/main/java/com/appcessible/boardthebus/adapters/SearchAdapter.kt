@@ -10,7 +10,7 @@ import com.appcessible.boardthebus.model.BusService
 import com.appcessible.boardthebus.model.SearchResult
 
 class SearchAdapter(
-    val timeFormatterHelper: TimeFormatter,
+    private val timeFormatterHelper: TimeFormatter,
     private val resultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

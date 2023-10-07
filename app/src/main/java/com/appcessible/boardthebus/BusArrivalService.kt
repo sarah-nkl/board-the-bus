@@ -35,5 +35,5 @@ interface BusArrivalService {
      * dispatch.
      */
     @GET("BusServices")
-    suspend fun getBusServices(): List<BusService>
+    suspend fun getBusServices(): BusServicesResponse
 }
