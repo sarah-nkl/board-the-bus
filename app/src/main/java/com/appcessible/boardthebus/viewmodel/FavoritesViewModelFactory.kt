@@ -19,6 +19,6 @@ class FavoritesViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return FavoritesFragmentViewModel(database) as T
+        return FavoritesViewModel(database) as T
     }
 }

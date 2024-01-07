@@ -27,7 +27,7 @@ interface BusStopDao {
     fun insertAll(buses: List<BusStop>)
 
     @Query("SELECT * FROM BusStop WHERE isFavorite = 1")
-    fun getAllFavorite(): LiveData<List<BusStop>>
+    suspend fun getAllFavorite(): List<BusStop>
 
     @Delete
     suspend fun delete(busStop: BusStop)

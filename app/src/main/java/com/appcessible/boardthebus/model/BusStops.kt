@@ -9,5 +9,6 @@ data class BusStops(
     val RoadName: String,
     val Description: String,
     val Latitude: Float,
-    val Longitude: Float
+    val Longitude: Float,
+    val isFavorite: Boolean
 ) : Parcelable

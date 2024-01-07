@@ -3,7 +3,8 @@ package com.appcessible.boardthebus.model
 data class SearchResult(
     val busStopCode: String,
     val description: String,
-    val label: SearchResultLabel
+    val label: SearchResultLabel,
+    val isFavorite: Boolean = false
 )
 
 enum class SearchResultLabel(val desc: String) {

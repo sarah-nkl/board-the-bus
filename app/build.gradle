@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.3'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Network stuff
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -83,8 +84,8 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$WORK_VERSION"
 
     // Stuff for testing
-    testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.room:room-testing:$ROOM_VERSION"
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test:runner:1.6.0-alpha04'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.0-alpha01'
 }

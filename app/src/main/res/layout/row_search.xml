@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="model"
             type="com.appcessible.boardthebus.model.SearchResult" />
+
+        <import type="com.appcessible.boardthebus.model.SearchResultLabel" />
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -24,6 +28,17 @@
             android:text="@{model.description}"
             style="@style/BusServiceNumberText"
             tools:text="bishan intbishan intbishan intbishan intbishan intbishan int" />
+
+        <ImageButton
+            android:id="@+id/ib_favorite"
+            android:layout_width="@dimen/estimated_arrival_text_dimens"
+            android:layout_height="@dimen/estimated_arrival_text_dimens"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite_button_content_description"
+            app:visibility="@{model.label == SearchResultLabel.BUS_STOP ? View.VISIBLE : View.GONE}"
+            app:tint="?colorSecondary"
+            app:srcCompat="@drawable/favorite_icon_selector"
+            app:checked="@{model.favorite}" />
 
         <TextView
             android:id="@+id/tv_search_result_label"

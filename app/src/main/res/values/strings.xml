@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">SG Bus Arrival</string>
+    <string name="clear_button_content_description">Clear search text</string>
+    <string name="favorites_fragment_empty_view_text">Search for a bus stop to add it to your favorites</string>
+    <string name="favorite_button_content_description">Add to Favorites</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_search">Search</string>
     <string name="search_hint">Search by bus stop code, bus stop name and bus service</string>
-    <string name="favorite_button_content_description">Add to Favorites</string>
-    <string name="clear_button_content_description">Clear search text</string>
 </resources>

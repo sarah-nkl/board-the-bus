@@ -18,6 +18,10 @@ class TimeFormatterHelper @Inject constructor() : TimeFormatter {
         val differenceInMillis = date.time - currentDate.time
         val result = (differenceInMillis / 1000 / 60).coerceAtLeast(0)
 
-        return result.toString()
+        return if (result == 0L) {
+            "Arr"
+        } else {
+            result.toString()
+        }
     }
 }

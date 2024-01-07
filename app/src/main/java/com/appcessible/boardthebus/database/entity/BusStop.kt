@@ -10,5 +10,5 @@ data class BusStop(
     val description: String,
     val longitude: Float,
     val latitude: Float,
-    var isFavorite: Boolean
+    val isFavorite: Boolean
 )

@@ -15,6 +15,15 @@
         <item name="android:layout_height">@dimen/estimated_arrival_text_dimens</item>
     </style>
 
+    <style name="RoadNameText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/rounded_corners</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
     <style name="SearchResultText">
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/rounded_corners</item>

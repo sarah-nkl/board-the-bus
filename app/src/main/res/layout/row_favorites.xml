@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -14,22 +15,34 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_bus_stop_code"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{model.busStopNo}"
+            android:layout_weight="1"
             style="@style/BusServiceNumberText"
-            tools:text="Bus number 1" />
+            tools:text="83139" />
 
         <TextView
             android:id="@+id/tv_bus_stop_road_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{model.roadName}"
-            tools:text="83139" />
+            style="@style/RoadNameText"
+            tools:text="Opp Seasame Street" />
+
+        <ImageButton
+            android:id="@+id/ib_favorite"
+            android:layout_width="@dimen/estimated_arrival_text_dimens"
+            android:layout_height="@dimen/estimated_arrival_text_dimens"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite_button_content_description"
+            app:tint="?colorSecondary"
+            app:srcCompat="@drawable/favorite_icon_selector"
+            app:checked="@{model.favorite}" />
 
     </LinearLayout>
 
