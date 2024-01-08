@@ -1,5 +1,6 @@
 package com.appcessible.boardthebus.injection.module
 
+import com.appcessible.boardthebus.BuildConfig
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.network.HeaderInterceptor
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -26,7 +27,7 @@ object NetworkModule {
     @Reusable
     internal fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HeaderInterceptor("AccountKey" to "dMnJYa7fSwysMqUpPItfbA=="))
+            .addInterceptor(HeaderInterceptor("AccountKey" to BuildConfig.DATAMALL_API_KEY))
             .addNetworkInterceptor(StethoInterceptor())
             .build()
     }

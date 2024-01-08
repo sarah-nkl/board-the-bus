@@ -8,6 +8,7 @@ plugins {
 android {
     namespace "com.appcessible.boardthebus"
     compileSdk 34
+    buildFeatures.buildConfig true
 
     defaultConfig {
         applicationId "com.appcessible.boardthebus"
@@ -16,6 +17,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Get the API keys from local.properties
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        // Set API keys in BuildConfig
+        buildConfigField "String", "DATAMALL_API_KEY", "\"${properties.getProperty("DATAMALL_API_KEY")}\""
     }
     buildTypes {
         release {

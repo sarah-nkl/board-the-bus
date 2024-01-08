@@ -1,13 +1,11 @@
 package com.appcessible.boardthebus
 
-import android.app.Activity
 import android.app.Application
 import androidx.work.Configuration
-import com.facebook.stetho.Stetho
 import com.appcessible.boardthebus.injection.component.AppComponent
 import com.appcessible.boardthebus.injection.component.DaggerAppComponent
 import com.appcessible.boardthebus.workers.BusWorkerFactory
-import com.appcessible.boardthebus.workers.UpdateWorkerFactory
+import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

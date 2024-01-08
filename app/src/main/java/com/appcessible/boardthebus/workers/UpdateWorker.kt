@@ -25,6 +25,7 @@ class UpdateWorker(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
+            Log.d("UpdateWorker", "Updating bus stop list in DB")
             val busStops = service.getBusStops().value
             val buses = service.getBusServices().value
             val database = AppDatabase.getInstance(appContext)

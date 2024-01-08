@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.appcessible.boardthebus.database.entity.Bus
 import com.appcessible.boardthebus.database.entity.BusStop
@@ -23,7 +24,7 @@ interface BusStopDao {
     @Query("SELECT * FROM BusStop WHERE description LIKE '%' || :busStopName || '%'")
     suspend fun loadByName(busStopName: String): List<BusStop>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(buses: List<BusStop>)
 
     @Query("SELECT * FROM BusStop WHERE isFavorite = 1")
