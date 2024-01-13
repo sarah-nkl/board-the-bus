@@ -26,4 +26,7 @@ interface BusDao {
 
     @Delete
     fun delete(bus: Bus)
+
+    @Query("DELETE FROM Bus")
+    suspend fun deleteAll()
 }

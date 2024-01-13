@@ -3,14 +3,21 @@ package com.appcessible.boardthebus.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.appcessible.boardthebus.BusArrivalService
+import com.appcessible.boardthebus.R
 import com.appcessible.boardthebus.TimeFormatter
 import com.appcessible.boardthebus.adapters.SearchAdapter
 import com.appcessible.boardthebus.database.AppDatabase
@@ -32,24 +39,20 @@ class SearchFragment : DaggerFragment() {
 
     private lateinit var adapter: SearchAdapter
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var menuItem: MenuItem
 
     private val viewModel: SearchViewModel by activityViewModels {
         SearchViewModelFactory(busArrivalService, database, requireActivity())
     }
 
     private val resultClickListener: (SearchResult) -> Unit = { busStop ->
-        binding.etSearchBus.setText(busStop.busStopCode)
+        binding.etSearchBus.apply {
+            setText(busStop.busStopCode)
+            setSelection(length())
+        }
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 retrieveBusArrival(busStop.busStopCode)
-            }
-        }
-    }
-
-    private val starClickListener: (String) -> Unit = { busStopNo ->
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                updateFavorites(busStopNo)
             }
         }
     }
@@ -60,9 +63,9 @@ class SearchFragment : DaggerFragment() {
             lifecycleOwner = viewLifecycleOwner
         }
 
-        adapter = SearchAdapter(timeFormatter, resultClickListener, starClickListener)
-
+        adapter = SearchAdapter(timeFormatter, resultClickListener)
         binding.adapter = adapter
+
         binding.etSearchBus.doAfterTextChanged {
             if (binding.etSearchBus.hasFocus()) {
                 search(it.toString())
@@ -79,11 +82,34 @@ class SearchFragment : DaggerFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_menu, menu)
+                menuItem = menu.getItem(0)
+                viewModel.getFavoriteBusStopLiveData().observe(viewLifecycleOwner, ::toggleFavorite)
+                viewModel.getCurrentBusStopLiveData().observe(viewLifecycleOwner, ::toggleMenuVisibility)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return if (menuItem.itemId == R.id.toggle_favorite_bus_stop) {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            updateFavorites(binding.etSearchBus.text.toString())
+                        }
+                    }
+                    true
+                } else {
+                    false
+                }
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
     private fun search(query: String) {
-        if (query.isEmpty()) {
-            adapter.updateResultList(emptyList())
-            return
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 try {
@@ -123,5 +149,14 @@ class SearchFragment : DaggerFragment() {
                 }
             }
         }
+    }
+
+    private fun toggleFavorite(isFavorite: Boolean) {
+        menuItem.icon = ContextCompat.getDrawable(requireContext(),
+            if (isFavorite) R.drawable.ic_star_filled_24dp else R.drawable.ic_star_outline_24)
+    }
+
+    private fun toggleMenuVisibility(busStopNo: String?) {
+        menuItem.isVisible = busStopNo != null
     }
 }

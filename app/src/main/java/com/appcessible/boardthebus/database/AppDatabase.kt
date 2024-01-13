@@ -9,14 +9,20 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.appcessible.boardthebus.database.dao.BusDao
 import com.appcessible.boardthebus.database.dao.BusStopDao
+import com.appcessible.boardthebus.database.dao.FavoriteBusStopDao
 import com.appcessible.boardthebus.database.entity.Bus
 import com.appcessible.boardthebus.database.entity.BusStop
+import com.appcessible.boardthebus.database.entity.FavoriteBusStop
 import com.appcessible.boardthebus.workers.UpdateWorker
 
-@Database(entities = [Bus::class, BusStop::class], version = 1, exportSchema = false)
+@Database(entities = [Bus::class, BusStop::class, FavoriteBusStop::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun busDao(): BusDao
     abstract fun busStopDao(): BusStopDao
+    abstract fun favoriteBusStopDao(): FavoriteBusStopDao
 
     companion object {
 

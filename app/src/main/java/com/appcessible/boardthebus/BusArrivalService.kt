@@ -6,6 +6,7 @@ import retrofit2.http.Query
 
 private const val BUS_STOP_CODE = "BusStopCode"
 private const val SERVICE_NO = "ServiceNo"
+const val MAX_RESPONSE_SIZE = 500 // Subject to change
 
 interface BusArrivalService {
 
@@ -27,7 +28,7 @@ interface BusArrivalService {
      * buses, including: Bus Stop Code, location coordinates.
      */
     @GET("BusStops")
-    suspend fun getBusStops(): BusStopsResponse
+    suspend fun getBusStops(@Query("\$skip") num: Int): BusStopsResponse
 
     /**
      * Returns detailed service information for all buses currently in
@@ -35,5 +36,5 @@ interface BusArrivalService {
      * dispatch.
      */
     @GET("BusServices")
-    suspend fun getBusServices(): BusServicesResponse
+    suspend fun getBusServices(@Query("\$skip") num: Int): BusServicesResponse
 }

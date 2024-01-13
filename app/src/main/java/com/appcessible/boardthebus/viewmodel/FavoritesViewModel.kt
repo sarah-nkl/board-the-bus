@@ -14,12 +14,12 @@ class FavoritesViewModel @Inject constructor(
     private val busStopsLiveData = MutableLiveData<List<BusStop>>(emptyList())
 
     suspend fun retrieveFavorites() {
-        busStopsLiveData.postValue(database.busStopDao().getAllFavorite().map {
-            BusStop(it.busStopNo, it.roadName, it.description, it.longitude, it.longitude, it.isFavorite)
+        busStopsLiveData.postValue(database.favoriteBusStopDao().getAllFavoriteBusStops().map {
+            BusStop(it.busStopNo, it.roadName, it.description, it.longitude, it.longitude)
         })
     }
     suspend fun removeFromFavorites(busStopNo: String) {
-        database.busStopDao().removeFromFavorite(busStopNo)
+        database.favoriteBusStopDao().delete(busStopNo)
     }
 
     fun getBusStopsLiveData(): LiveData<List<BusStop>> {

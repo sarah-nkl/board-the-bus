@@ -9,6 +9,5 @@ data class BusStop(
     val roadName: String,
     val description: String,
     val longitude: Float,
-    val latitude: Float,
-    val isFavorite: Boolean
+    val latitude: Float
 )

@@ -1,12 +1,10 @@
 package com.appcessible.boardthebus.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.RowFavoritesBinding
-import com.appcessible.boardthebus.model.SearchResult
 
 class FavoritesAdapter(
     private val starClickListener: (String) -> Unit

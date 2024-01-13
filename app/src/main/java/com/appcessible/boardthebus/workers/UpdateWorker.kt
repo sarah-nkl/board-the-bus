@@ -3,19 +3,14 @@ package com.appcessible.boardthebus.workers
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.appcessible.boardthebus.BusArrivalService
+import com.appcessible.boardthebus.MAX_RESPONSE_SIZE
 import com.appcessible.boardthebus.database.AppDatabase
 import com.appcessible.boardthebus.database.entity.Bus
 import com.appcessible.boardthebus.database.entity.BusStop
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.lang.Exception
-import javax.inject.Inject
 
 class UpdateWorker(
     private val appContext: Context,
@@ -26,15 +21,36 @@ class UpdateWorker(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
             Log.d("UpdateWorker", "Updating bus stop list in DB")
-            val busStops = service.getBusStops().value
-            val buses = service.getBusServices().value
+            val busStopList = mutableListOf<BusStop>()
+            val busList = mutableListOf<Bus>()
+
+            var prevBusStopListSize = -1
+            var busStopServiceSkipSize = 0
+            while (busStopList.size > prevBusStopListSize) {
+                prevBusStopListSize = busStopList.size
+                busStopList.addAll(service.getBusStops(busStopServiceSkipSize).value!!.map {
+                    BusStop(it.BusStopCode, it.RoadName, it.Description, it.Longitude, it.Latitude)
+                })
+                busStopServiceSkipSize += MAX_RESPONSE_SIZE
+            }
+
+            var prevBusListSize = -1
+            var busServiceSkipSize = 0
+            while (busList.size > prevBusListSize) {
+                prevBusListSize = busStopList.size
+                busList.addAll(service.getBusServices(busServiceSkipSize).value!!.map {
+                    Bus(it.ServiceNo)
+                })
+                busServiceSkipSize += MAX_RESPONSE_SIZE
+            }
+
             val database = AppDatabase.getInstance(appContext)
-            val busStopList = busStops!!.map {
-                BusStop(it.BusStopCode, it.RoadName, it.Description, it.Longitude, it.Latitude, false)
-            }
-            val busList = buses!!.map {
-                Bus(it.ServiceNo)
-            }
+
+            // Clear all
+            database.busStopDao().deleteAll()
+            database.busDao().deleteAll()
+
+            // Insert all
             database.busStopDao().insertAll(busStopList)
             database.busDao().insertAll(busList)
         } catch (e: Exception) {

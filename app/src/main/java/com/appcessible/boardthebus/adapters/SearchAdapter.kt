@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.appcessible.boardthebus.TimeFormatter
-import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.RowBusArrivalBinding
 import com.appcessible.boardthebus.databinding.RowSearchBinding
 import com.appcessible.boardthebus.model.BusService
@@ -12,8 +11,7 @@ import com.appcessible.boardthebus.model.SearchResult
 
 class SearchAdapter(
     private val timeFormatterHelper: TimeFormatter,
-    private val resultClickListener: (SearchResult) -> Unit,
-    private val starClickListener: (String) -> Unit
+    private val resultClickListener: (SearchResult) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val resultList: MutableList<SearchResult> = mutableListOf()
@@ -101,12 +99,6 @@ class SearchAdapter(
                 (holder as SearchViewHolder).binding.apply {
                     root.setOnClickListener {
                         resultClickListener(result)
-                    }
-                    ibFavorite.setOnClickListener {
-                        starClickListener(result.busStopCode)
-                        val newBusStop = result.copy(isFavorite = !result.isFavorite)
-                        resultList[position] = newBusStop
-                        notifyItemChanged(position)
                     }
                 }
                 holder.bind(result)
