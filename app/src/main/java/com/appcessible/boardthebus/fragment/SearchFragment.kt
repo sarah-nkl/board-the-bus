@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
@@ -21,6 +20,7 @@ import com.appcessible.boardthebus.R
 import com.appcessible.boardthebus.TimeFormatter
 import com.appcessible.boardthebus.adapters.SearchAdapter
 import com.appcessible.boardthebus.database.AppDatabase
+import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.FragmentSearchBinding
 import com.appcessible.boardthebus.model.SearchResult
 import com.appcessible.boardthebus.viewmodel.SearchViewModel
@@ -47,9 +47,12 @@ class SearchFragment : DaggerFragment() {
 
     private val resultClickListener: (SearchResult) -> Unit = { busStop ->
         binding.etSearchBus.apply {
+            tag = "arbitrary value"
             setText(busStop.busStopCode)
             setSelection(length())
+            tag = null
         }
+        binding.swipeRefresh.isRefreshing = true
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 retrieveBusArrival(busStop.busStopCode)
@@ -67,7 +70,7 @@ class SearchFragment : DaggerFragment() {
         binding.adapter = adapter
 
         binding.etSearchBus.doAfterTextChanged {
-            if (binding.etSearchBus.hasFocus()) {
+            if (binding.etSearchBus.tag == null) {
                 search(it.toString())
             }
         }
@@ -156,7 +159,7 @@ class SearchFragment : DaggerFragment() {
             if (isFavorite) R.drawable.ic_star_filled_24dp else R.drawable.ic_star_outline_24)
     }
 
-    private fun toggleMenuVisibility(busStopNo: String?) {
-        menuItem.isVisible = busStopNo != null
+    private fun toggleMenuVisibility(busStop: BusStop?) {
+        menuItem.isVisible = busStop != null
     }
 }

@@ -30,7 +30,7 @@
             android:id="@+id/tv_bus_stop_road_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.roadName}"
+            android:text="@{model.description}"
             style="@style/RoadNameText"
             tools:text="Opp Seasame Street" />
 

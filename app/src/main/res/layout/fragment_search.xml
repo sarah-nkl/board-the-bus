@@ -47,6 +47,17 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/tv_bus_arrival_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="@{model.currentBusStopLiveData.description}"
+            app:visible="@{model.currentBusStopLiveData != null}"
+            style="@style/BusArrivalHeading"
+            tools:text="Farrer Road" />
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.database.AppDatabase
+import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.database.entity.FavoriteBusStop
 import com.appcessible.boardthebus.model.BusService
 import com.appcessible.boardthebus.model.SearchResult
@@ -18,14 +19,14 @@ class SearchViewModel(
 
     private val searchResultsLiveData = MutableLiveData<List<SearchResult>>(emptyList())
     private val busArrivalResultsLiveData = MutableLiveData<List<BusService>?>(emptyList())
-    private val favoriteBusStopLiveData = MutableLiveData(false)
-    private val currentBusStopLiveData = MutableLiveData<String?>(null)
+    private val isFavoriteBusStopLiveData = MutableLiveData(false)
+    private val currentBusStopLiveData = MutableLiveData<BusStop?>(null)
 
     suspend fun searchBusArrival(queryString: String) {
         val busArrival = busArrivalService.getBusArrivalByBus(queryString)
         busArrivalResultsLiveData.postValue(busArrival.Services)
-        currentBusStopLiveData.postValue(queryString)
-        favoriteBusStopLiveData.postValue(database.favoriteBusStopDao().loadById(queryString).isNotEmpty())
+        currentBusStopLiveData.postValue(database.busStopDao().loadById(queryString)[0])
+        isFavoriteBusStopLiveData.postValue(database.favoriteBusStopDao().loadById(queryString).isNotEmpty())
     }
 
     suspend fun search(queryString: String) {
@@ -61,7 +62,7 @@ class SearchViewModel(
         } else {
             database.favoriteBusStopDao().delete(busStopNo)
         }
-        favoriteBusStopLiveData.postValue(resultList.isEmpty())
+        isFavoriteBusStopLiveData.postValue(resultList.isEmpty())
     }
 
     fun getSearchResultsLiveData(): LiveData<List<SearchResult>> {
@@ -73,10 +74,10 @@ class SearchViewModel(
     }
 
     fun getFavoriteBusStopLiveData(): LiveData<Boolean> {
-        return favoriteBusStopLiveData
+        return isFavoriteBusStopLiveData
     }
 
-    fun getCurrentBusStopLiveData(): LiveData<String?> {
+    fun getCurrentBusStopLiveData(): LiveData<BusStop?> {
         return currentBusStopLiveData
     }
 }

@@ -1,5 +1,13 @@
 <resources>
 
+    <style name="BusArrivalHeading">
+        <item name="android:textAppearance">?attr/textAppearanceListItemSecondary</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
     <style name="BusServiceNumberText">
         <item name="android:textSize">20sp</item>
         <item name="android:maxLines">1</item>
