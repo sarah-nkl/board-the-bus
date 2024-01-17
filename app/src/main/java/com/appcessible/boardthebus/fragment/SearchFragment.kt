@@ -14,7 +14,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.R
 import com.appcessible.boardthebus.TimeFormatter
@@ -47,10 +46,7 @@ class SearchFragment : DaggerFragment() {
 
     private val resultClickListener: (SearchResult) -> Unit = { busStop ->
         binding.etSearchBus.apply {
-            tag = "arbitrary value"
-            setText(busStop.busStopCode)
-            setSelection(length())
-            tag = null
+            setText("")
         }
         binding.swipeRefresh.isRefreshing = true
         lifecycleScope.launch {
@@ -70,9 +66,7 @@ class SearchFragment : DaggerFragment() {
         binding.adapter = adapter
 
         binding.etSearchBus.doAfterTextChanged {
-            if (binding.etSearchBus.tag == null) {
-                search(it.toString())
-            }
+            search(it.toString())
         }
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -114,42 +108,36 @@ class SearchFragment : DaggerFragment() {
 
     private fun search(query: String) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                try {
-                    viewModel.search(query)
-                } catch (e: Exception) {
-                    Log.d("SearchFragment", "error loading bus stops", e)
-                } finally {
-                    binding.swipeRefresh.isRefreshing = false
-                }
+            try {
+                viewModel.search(query)
+            } catch (e: Exception) {
+                Log.d("SearchFragment", "error loading bus stops", e)
+            } finally {
+                binding.swipeRefresh.isRefreshing = false
             }
         }
     }
 
     private fun retrieveBusArrival(query: String) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                try {
-                    viewModel.searchBusArrival(query)
-                } catch (e: Exception) {
-                    Log.d("SearchFragment", "error loading bus stops", e)
-                } finally {
-                    binding.swipeRefresh.isRefreshing = false
-                }
+            try {
+                viewModel.searchBusArrival(query)
+            } catch (e: Exception) {
+                Log.d("SearchFragment", "error loading bus stops", e)
+            } finally {
+                binding.swipeRefresh.isRefreshing = false
             }
         }
     }
 
     private fun updateFavorites(busStopNo: String) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                try {
-                    viewModel.updateFavorites(busStopNo)
-                } catch (e: Exception) {
-                    Log.d("SearchFragment", "error updating favorites", e)
-                } finally {
-                    binding.swipeRefresh.isRefreshing = false
-                }
+            try {
+                viewModel.updateFavorites(busStopNo)
+            } catch (e: Exception) {
+                Log.d("SearchFragment", "error updating favorites", e)
+            } finally {
+                binding.swipeRefresh.isRefreshing = false
             }
         }
     }
