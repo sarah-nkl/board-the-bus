@@ -16,14 +16,12 @@ data class NextBus(
     val Type: String
 ) : Parcelable
 
-val mockNextBus = NextBus(
-    OriginCode = "12345",
-    DestinationCode = "54321",
-    EstimatedArrival = "21:01",
-    Latitude = "1.232424",
-    Longitude = "0.3534535",
-    VisitNumber = "4",
-    Load = "23",
-    Feature = "NA",
-    Type = "NA"
-)
+enum class BusLoad(private val load: String) {
+    SEATS_AVAILABLE("SEA"),
+    STANDING_AVAILABLE("SDA"),
+    LIMITED_STANDING_AVAILABLE("LSD");
+
+    companion object {
+        fun getByString(query: String) = BusLoad.values().firstOrNull { it.load == query }
+    }
+}

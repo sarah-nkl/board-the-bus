@@ -21,18 +21,18 @@
             android:id="@+id/tv_bus_stop_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{model.busStopNo}"
+            android:text="@{model.description}"
             android:layout_weight="1"
             style="@style/BusServiceNumberText"
-            tools:text="83139" />
+            tools:text="Opp Seasame Street" />
 
         <TextView
             android:id="@+id/tv_bus_stop_road_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.description}"
+            android:text="@{model.busStopNo}"
             style="@style/RoadNameText"
-            tools:text="Opp Seasame Street" />
+            tools:text="83139" />
 
         <ImageButton
             android:id="@+id/ib_favorite"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -13,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?listPreferredItemHeight"
+        android:layout_height="?listPreferredItemHeightLarge"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:gravity="center_vertical"
@@ -33,20 +34,26 @@
             android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus.estimatedArrival)}"
             style="@style/EstimatedArrivalText"
             android:layout_marginEnd="8dp"
-            tools:text="15 min" />
+            app:estimatedArrBackground="@{model.nextBus.load}"
+            tools:background="?attr/colorSecondary"
+            tools:text="Arr" />
 
         <TextView
             android:id="@+id/tv_bus_timing_2"
             android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus2.estimatedArrival)}"
             style="@style/EstimatedArrivalText"
             android:layout_marginEnd="8dp"
-            tools:text="15 min" />
+            app:estimatedArrBackground="@{model.nextBus2.load}"
+            tools:background="?attr/colorSecondary"
+            tools:text="15" />
 
         <TextView
             android:id="@+id/tv_bus_timing_3"
             android:text="@{timeFormatter.getEstimatedArrivalInMin(model.nextBus3.estimatedArrival)}"
             style="@style/EstimatedArrivalText"
-            tools:text="15 min" />
+            app:estimatedArrBackground="@{model.nextBus3.load}"
+            tools:background="?attr/colorSecondary"
+            tools:text="20" />
 
     </LinearLayout>
 

@@ -10,4 +10,7 @@
     <color name="colorSecondaryLight">#718792</color>
     <color name="colorSecondaryDark">#1c313a</color>
 
+    <color name="colorSeatsAvailable">#76FF03</color>
+    <color name="colorStandingAvailable">#FFC400</color>
+    <color name="colorLimitedStanding">#FF1744</color>
 </resources>
