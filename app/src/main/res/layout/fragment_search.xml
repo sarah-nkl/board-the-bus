@@ -12,15 +12,16 @@
             type="com.appcessible.boardthebus.viewmodel.SearchViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/search_bar_margin"
+            app:layout_constraintTop_toTopOf="parent"
             app:cardUseCompatPadding="true"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp">
@@ -49,20 +50,37 @@
 
         <TextView
             android:id="@+id/tv_bus_arrival_heading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:text="@{model.currentBusStopLiveData.description}"
+            android:layout_width="0dp"
+            android:padding="8dp"
+            android:text="@{model.currentBusStopLiveData.description + ` (` + model.currentBusStopLiveData.busStopNo + `)`}"
+            app:layout_constraintTop_toBottomOf="@id/search_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_favorite_bus_stop"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:visible="@{model.currentBusStopLiveData != null}"
             style="@style/BusArrivalHeading"
             tools:text="Farrer Road" />
+
+        <ImageButton
+            android:id="@+id/ib_favorite_bus_stop"
+            android:layout_width="@dimen/estimated_arrival_text_dimens"
+            android:layout_height="@dimen/estimated_arrival_text_dimens"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/favorite_button_content_description"
+            android:onClick="@{() -> model.updateFavorites()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_bus_arrival_heading"
+            app:layout_constraintTop_toTopOf="@id/tv_bus_arrival_heading"
+            app:tint="?colorSecondary"
+            app:visible="@{model.currentBusStopLiveData != null}"
+            app:srcCompat="@drawable/favorite_icon_selector"
+            app:checked="@{model.favoriteBusStopLiveData}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            app:layout_constraintTop_toBottomOf="@id/tv_bus_arrival_heading">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -74,6 +92,6 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

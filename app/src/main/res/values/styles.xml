@@ -1,9 +1,11 @@
 <resources>
 
     <style name="BusArrivalHeading">
-        <item name="android:textAppearance">?attr/textAppearanceListItemSecondary</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItem</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:layout_height">@dimen/estimated_arrival_text_dimens</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="textAllCaps">true</item>
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
@@ -23,6 +25,14 @@
         <item name="android:layout_height">@dimen/estimated_arrival_text_dimens</item>
     </style>
 
+    <style name="FullScreenDialog" parent="@style/ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
     <style name="RoadNameText">
         <item name="android:textSize">18sp</item>
         <item name="android:background">@drawable/rounded_corners</item>
@@ -30,6 +40,12 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SearchResultBusStopSubtitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
     <style name="SearchResultText">

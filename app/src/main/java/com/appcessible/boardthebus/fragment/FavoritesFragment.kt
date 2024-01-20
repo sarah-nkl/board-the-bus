@@ -11,9 +11,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.adapters.FavoritesAdapter
 import com.appcessible.boardthebus.database.AppDatabase
+import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.FragmentFavoritesBinding
+import com.appcessible.boardthebus.model.BusStops
 import com.appcessible.boardthebus.viewmodel.FavoritesViewModel
 import com.appcessible.boardthebus.viewmodel.FavoritesViewModelFactory
 import dagger.android.support.DaggerFragment
@@ -22,16 +25,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
 class FavoritesFragment : DaggerFragment() {
 
+    @Inject lateinit var busArrivalService: BusArrivalService
     @Inject lateinit var database: AppDatabase
 
     private lateinit var adapter: FavoritesAdapter
     private lateinit var binding: FragmentFavoritesBinding
 
     private val viewModel: FavoritesViewModel by activityViewModels {
-        FavoritesViewModelFactory(database, requireActivity())
+        FavoritesViewModelFactory(busArrivalService, database, requireActivity())
     }
 
     private val emptyObserver: AdapterDataObserver = object : AdapterDataObserver() {
@@ -45,10 +48,20 @@ class FavoritesFragment : DaggerFragment() {
             model = viewModel
         }
 
-        adapter = FavoritesAdapter { busStopNo ->
+        adapter = FavoritesAdapter(::showBusArrivalDialog) { busStopNo ->
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     removeFromFavorites(busStopNo)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                try {
+                    viewModel.retrieveFavorites()
+                } catch (e: Exception) {
+                    Log.d("FavoritesFragment", "error retrieving favorites", e)
                 }
             }
         }
@@ -61,18 +74,38 @@ class FavoritesFragment : DaggerFragment() {
     override fun onResume() {
         super.onResume()
         adapter.registerAdapterDataObserver(emptyObserver)
-        lifecycleScope.launch {
-            try {
-                viewModel.retrieveFavorites()
-            } catch (e: Exception) {
-                Log.d("FavoritesFragment", "error retrieving favorites", e)
-            }
-        }
     }
 
     override fun onPause() {
         super.onPause()
         adapter.unregisterAdapterDataObserver(emptyObserver)
+    }
+
+    private fun showBusArrivalDialog(busStop: BusStop) {
+        lifecycleScope.launch {
+            binding.progressIndicator.isVisible = true
+            try {
+                val busArrivalList = viewModel.searchBusArrival(busStop.busStopNo) as ArrayList
+                val busStopParcelable = BusStops(
+                    busStop.busStopNo,
+                    busStop.roadName,
+                    busStop.description,
+                    busStop.latitude,
+                    busStop.longitude)
+
+                val busArrivalDialogFragment = BusArrivalDialogFragment()
+                val bundle = Bundle().apply {
+                    putParcelable(BusArrivalDialogFragment.BUS_STOP_KEY, busStopParcelable)
+                    putParcelableArrayList(BusArrivalDialogFragment.BUS_ARRIVAL_LIST_KEY, busArrivalList)
+                }
+                busArrivalDialogFragment.arguments = bundle
+                busArrivalDialogFragment.show(childFragmentManager, BusArrivalDialogFragment.TAG)
+            } catch (e: Exception) {
+                Log.d("FavoritesFragment", "error retrieving bus arrival", e)
+            } finally {
+                binding.progressIndicator.isVisible = false
+            }
+        }
     }
 
     private fun subscribeUI() {
@@ -81,12 +114,10 @@ class FavoritesFragment : DaggerFragment() {
 
     private fun removeFromFavorites(busStopNo: String) {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                try {
-                    viewModel.removeFromFavorites(busStopNo)
-                } catch (e: Exception) {
-                    Log.d("FavoritesFragment", "error removing from favorites", e)
-                }
+            try {
+                viewModel.removeFromFavorites(busStopNo)
+            } catch (e: Exception) {
+                Log.d("FavoritesFragment", "error removing from favorites", e)
             }
         }
     }

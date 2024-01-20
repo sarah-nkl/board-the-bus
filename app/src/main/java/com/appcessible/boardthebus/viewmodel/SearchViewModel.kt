@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.database.AppDatabase
 import com.appcessible.boardthebus.database.entity.BusStop
@@ -11,6 +12,7 @@ import com.appcessible.boardthebus.database.entity.FavoriteBusStop
 import com.appcessible.boardthebus.model.BusService
 import com.appcessible.boardthebus.model.SearchResult
 import com.appcessible.boardthebus.model.SearchResultLabel
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val busArrivalService: BusArrivalService,
@@ -38,31 +40,46 @@ class SearchViewModel(
         }
         val result = mutableListOf<SearchResult>()
         result.addAll(database.busDao().loadById(queryString).map {
-            SearchResult(it.busNo, it.busNo, SearchResultLabel.BUS_SERVICE)
+            SearchResult(it.busNo, it.busNo, it.busNo, SearchResultLabel.BUS_SERVICE)
         })
         result.addAll(database.busStopDao().loadById(queryString).map {
-            SearchResult(it.busStopNo, it.busStopNo, SearchResultLabel.BUS_STOP)
+            SearchResult(it.busStopNo, it.busStopNo, it.description, SearchResultLabel.BUS_STOP)
         })
-        result.addAll(database.busStopDao().loadByName(queryString).map {
-            SearchResult(it.busStopNo, it.description, SearchResultLabel.BUS_STOP)
-        })
-        result.addAll(database.busStopDao().loadByRoadName(queryString).map {
-            SearchResult(it.busStopNo, it.roadName, SearchResultLabel.ADDRESS)
+        result.addAll(database.busStopDao().loadBusStopsWithQuery(queryString).map {
+            SearchResult(it.busStopNo, it.description, it.roadName, SearchResultLabel.ADDRESS)
         })
         searchResultsLiveData.postValue(result)
     }
 
-    suspend fun updateFavorites(busStopNo: String) {
-        val resultList = database.favoriteBusStopDao().loadById(busStopNo)
+    fun updateFavorites() {
+        viewModelScope.launch {
+            val busStop = currentBusStopLiveData.value
+                ?: throw IllegalStateException("Unable to update favorites")
+
+            val resultList = database.favoriteBusStopDao().loadById(busStop.busStopNo)
+            if (resultList.size > 1) {
+                throw IllegalStateException("Unable to update favorites")
+            }
+            if (resultList.isEmpty()) {
+                database.favoriteBusStopDao().insert(FavoriteBusStop(busStop.busStopNo))
+            } else {
+                database.favoriteBusStopDao().delete(busStop.busStopNo)
+            }
+            isFavoriteBusStopLiveData.postValue(resultList.isEmpty())
+        }
+    }
+
+    suspend fun checkIsFavorite() {
+        val busStop = currentBusStopLiveData.value
+        if (busStop == null) {
+            isFavoriteBusStopLiveData.postValue(false)
+            return
+        }
+        val resultList = database.favoriteBusStopDao().loadById(busStop.busStopNo)
         if (resultList.size > 1) {
-            throw IllegalStateException("Unable to update favorites")
+            throw IllegalStateException("Duplicate bus stop entries in Favorites DB")
         }
-        if (resultList.isEmpty()) {
-            database.favoriteBusStopDao().insert(FavoriteBusStop(busStopNo))
-        } else {
-            database.favoriteBusStopDao().delete(busStopNo)
-        }
-        isFavoriteBusStopLiveData.postValue(resultList.isEmpty())
+        isFavoriteBusStopLiveData.postValue(resultList.isNotEmpty())
     }
 
     fun getSearchResultsLiveData(): LiveData<List<SearchResult>> {

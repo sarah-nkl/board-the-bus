@@ -3,11 +3,14 @@ package com.appcessible.boardthebus.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.database.AppDatabase
 import com.appcessible.boardthebus.database.entity.BusStop
+import com.appcessible.boardthebus.model.BusService
 import javax.inject.Inject
 
 class FavoritesViewModel @Inject constructor(
+    private val busArrivalService: BusArrivalService,
     private val database: AppDatabase
 ) : ViewModel() {
 
@@ -20,6 +23,10 @@ class FavoritesViewModel @Inject constructor(
     }
     suspend fun removeFromFavorites(busStopNo: String) {
         database.favoriteBusStopDao().delete(busStopNo)
+    }
+
+    suspend fun searchBusArrival(queryString: String): List<BusService> {
+        return busArrivalService.getBusArrivalByBus(queryString).Services ?: emptyList()
     }
 
     fun getBusStopsLiveData(): LiveData<List<BusStop>> {

@@ -7,6 +7,7 @@ import com.appcessible.boardthebus.database.entity.BusStop
 import com.appcessible.boardthebus.databinding.RowFavoritesBinding
 
 class FavoritesAdapter(
+    private val favoriteClickListener: (BusStop) -> Unit,
     private val starClickListener: (String) -> Unit
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
@@ -52,13 +53,18 @@ class FavoritesAdapter(
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
         val busStop = busStopList[position]
-        holder.binding.ibFavorite.setOnClickListener {
-            starClickListener(busStop.busStopNo)
-            busStopList.remove(busStop)
-            if (busStopList.isEmpty()) {
-                notifyDataSetChanged()
-            } else {
-                notifyItemRemoved(holder.adapterPosition)
+        holder.binding.apply {
+            root.setOnClickListener {
+                favoriteClickListener.invoke(busStop)
+            }
+            ibFavorite.setOnClickListener {
+                starClickListener(busStop.busStopNo)
+                busStopList.remove(busStop)
+                if (busStopList.isEmpty()) {
+                    notifyDataSetChanged()
+                } else {
+                    notifyItemRemoved(holder.adapterPosition)
+                }
             }
         }
         holder.bind(busStop)

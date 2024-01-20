@@ -8,7 +8,6 @@
             type="com.appcessible.boardthebus.model.SearchResult" />
 
         <import type="com.appcessible.boardthebus.model.SearchResultLabel" />
-        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -20,20 +19,20 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_search_result"
+            android:id="@+id/tv_search_result_bus_service"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{model.description}"
+            android:text="@{model.name}"
             style="@style/BusServiceNumberText"
-            tools:text="bishan intbishan intbishan intbishan intbishan intbishan int" />
+            tools:text="88" />
 
         <TextView
-            android:id="@+id/tv_search_result_label"
-            android:text="@{model.label.desc}"
+            android:id="@+id/tv_search_result_bus_service_label"
+            android:text="@{SearchResultLabel.BUS_SERVICE.desc}"
             style="@style/SearchResultText"
             android:layout_marginEnd="8dp"
-            tools:text="Bus Stop" />
+            tools:text="Bus Service" />
 
     </LinearLayout>
 

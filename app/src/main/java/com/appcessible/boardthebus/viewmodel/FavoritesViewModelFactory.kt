@@ -5,10 +5,12 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
+import com.appcessible.boardthebus.BusArrivalService
 import com.appcessible.boardthebus.database.AppDatabase
 
 @Suppress("UNCHECKED_CAST")
 class FavoritesViewModelFactory(
+    private val busArrivalService: BusArrivalService,
     private val database: AppDatabase,
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
@@ -19,6 +21,6 @@ class FavoritesViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return FavoritesViewModel(database) as T
+        return FavoritesViewModel(busArrivalService, database) as T
     }
 }

@@ -26,8 +26,7 @@ interface BusStopDao {
     @Query("SELECT * FROM BusStop WHERE roadName LIKE '%' || :roadName || '%'")
     suspend fun loadByRoadName(roadName: String): List<BusStop>
 
-    @Query("SELECT * FROM BusStop WHERE busStopNo LIKE '%' || :search || '%'" +
-            "OR description LIKE '%' || :search || '%'" +
+    @Query("SELECT * FROM BusStop WHERE description LIKE '%' || :search || '%'" +
             "OR roadName LIKE '%' || :search || '%'")
     suspend fun loadBusStopsWithQuery(search: String): List<BusStop>
 

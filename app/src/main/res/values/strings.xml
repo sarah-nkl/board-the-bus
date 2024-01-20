@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">SG Bus Arrival</string>
+    <string name="app_name">Bus Feed - Singapore</string>
     <string name="clear_button_content_description">Clear search text</string>
+    <string name="close_bus_arrivals_dialog_content_description">Close bus arrivals dialog</string>
     <string name="favorites_fragment_empty_view_text">Search for a bus stop to add it to your favorites</string>
     <string name="favorite_button_content_description">Add to Favorites</string>
     <string name="title_favorites">Favorites</string>
