@@ -9,10 +9,11 @@ Bus Feed is a simple Android application that helps users retrieve bus arrival t
 
 
 ## Screenshots
-![favorites](https://github.com/sarah-nkl/board-the-bus/assets/25564969/f17c615b-895e-4923-858d-0927657b0fc3)
-![favorites_detail](https://github.com/sarah-nkl/board-the-bus/assets/25564969/7ec92680-3219-4f61-9ffa-2f199b13f4b9)
-![search_results](https://github.com/sarah-nkl/board-the-bus/assets/25564969/0bc358d8-6874-48a9-8ff3-3e36261fd2aa)
-![search_results_detail](https://github.com/sarah-nkl/board-the-bus/assets/25564969/df3ce186-3362-44c2-b7a6-1dcf6e6d3a6f)
+<img src="https://github.com/sarah-nkl/board-the-bus/assets/25564969/f17c615b-895e-4923-858d-0927657b0fc3" alt="favorites" width="300"/>
+<img src="https://github.com/sarah-nkl/board-the-bus/assets/25564969/7ec92680-3219-4f61-9ffa-2f199b13f4b9" alt="favorites_detail" width="300"/>
+
+<img src="https://github.com/sarah-nkl/board-the-bus/assets/25564969/0bc358d8-6874-48a9-8ff3-3e36261fd2aa" alt="search_results" width="300"/>
+<img src="https://github.com/sarah-nkl/board-the-bus/assets/25564969/df3ce186-3362-44c2-b7a6-1dcf6e6d3a6f" alt="search_results_detail" width="300"/>
 
 ## Acknowledgements
 * This project was inspired by the need for a simple, intuitive and accessible tool to help users navigate bus routes and schedules in Singapore.
