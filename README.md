@@ -1,6 +1,6 @@
 # Bus Feed
 
-Bus Feed is a simple Android application that helps users retrieve bus arrival timings in Singapore. It provides information about bus capacity and available bus services for each stop, allowing users to plan their journey ahead of time. This is not meant for release on the Google Play Store, but simply as a space for keeping up-to-date with the latest practices and frameworks in Android.
+Bus Feed is a simple Android application that helps users retrieve bus arrival timings in Singapore. It provides information about bus capacity and available bus services for each stop, allowing users to plan their journey ahead of time. 
 
 ## Features
 * Bus Arrival Information: Users can check the schedule for a particular bus route to plan their journey.
